@@ -5,13 +5,6 @@ from model import Equipe, Membro
 
 router = APIRouter(prefix="/equipes", tags=["Equipes"])
 
-@router.post("", response_model=Equipe)
-def criar_equipe(equipe: Equipe, session: Session = Depends(get_session)) -> Equipe:
-    session.add(equipe)
-    session.commit()
-    session.refresh(equipe)
-    return equipe
-
 @router.get("", response_model=list[Equipe])
 def listar_equipes(session: Session = Depends(get_session)):
     return session.exec(select(Equipe)).all()
@@ -22,6 +15,13 @@ def buscar_equipe(equipe_id: int, session: Session = Depends(get_session)):
     
     if not equipe:
         raise HTTPException(status_code=404, detail="Equipe nao encontrada")
+    return equipe
+
+@router.post("", response_model=Equipe)
+def criar_equipe(equipe: Equipe, session: Session = Depends(get_session)) -> Equipe:
+    session.add(equipe)
+    session.commit()
+    session.refresh(equipe)
     return equipe
 
 @router.put("/{equipe_id}", response_model=Equipe)
