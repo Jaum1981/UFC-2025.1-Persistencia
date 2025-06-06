@@ -38,4 +38,4 @@ class Membership(SQLModel, table=True):
     membro_id: int = Field(foreign_key="membro.id")
     equipe_id: int = Field(foreign_key="equipe.id")
 
-     
+    

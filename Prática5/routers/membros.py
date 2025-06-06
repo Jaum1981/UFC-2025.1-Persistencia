@@ -1,9 +1,9 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 from database import get_session
-from model import Membro, Equipe, Membership
+from model import Membro
 
-router = FastAPI(prefix="/membros", tags=["Membros"])
+router = APIRouter(prefix="/membros", tags=["Membros"])
 
 @router.get("", response_model=list[Membro])
 def listar_membros(session: Session = Depends(get_session)):
